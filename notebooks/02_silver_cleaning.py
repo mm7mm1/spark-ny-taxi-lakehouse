@@ -1,10 +1,10 @@
 # Databricks notebook source
 from pyspark.sql import functions as F
 
-# extracting bronze
+# 1. Extracting bronze
 df_bronze = spark.table("workspace.default.bronze_yellow_taxi")
 
-# Transforming data
+# 2. Transforming data
 df_silver = df_bronze \
     .filter(
         (F.year(F.col("tpep_pickup_datetime")) == 2025) & 
@@ -27,14 +27,17 @@ df_silver = df_bronze \
     .filter("trip_duration_minutes < 1440") \
     .dropDuplicates()
 
-# Adding column with ride duration in min
-df_silver = df_silver.withColumn(
-    "trip_duration_minutes", 
-    (F.unix_timestamp("tpep_dropoff_datetime") - F.unix_timestamp("tpep_pickup_datetime")) / 60
-)
+# Adding partition column
+df_silver = df_silver.withColumn("pickup_month", F.month("tpep_pickup_datetime"))
 
-# Saving as Silver table
+# Saving as Silver table 
 spark.sql("DROP TABLE IF EXISTS workspace.default.silver_yellow_taxi")
-df_silver.write.format("delta").mode("overwrite").saveAsTable("workspace.default.silver_yellow_taxi")
 
-print(f"✅ Silver Layer ready! Good quality raws left: {df_silver.count():,}")
+# Using partitionBy 
+df_silver.write \
+    .format("delta") \
+    .partitionBy("pickup_month") \
+    .mode("overwrite") \
+    .saveAsTable("workspace.default.silver_yellow_taxi")
+
+print(f"✅ Silver Layer ready with partitioning! Row count: {df_silver.count():,}")
