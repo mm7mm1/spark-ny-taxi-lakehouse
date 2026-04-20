@@ -40,7 +40,7 @@ Implemented **Delta Lake** maintenance commands to ensure high performance:
 
 ## Data Architecture
 The data architecture diagram for this project follow The Medallion Architecture Bronze, Silver and Gold layers:
-![Data Architecture](./docs/NYC_Taxi_Data_Lakehouse_2025.jpg)
+![Data Architecture](./docs/NYC_Taxi_Data_Lakehouse_2025.png)
 
 ## 📊 Visualizations & Insights
 The project concludes with a high-level dashboard featuring:
