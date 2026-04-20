@@ -17,6 +17,7 @@ The pipeline follows the industry-standard Lakehouse architecture:
 * **Platform:** Databricks Community Edition
 * **Storage:** Delta Lake (supporting ACID transactions, Time Travel, and Schema Evolution)
 * **Optimization Tools:** Z-Order Clustering, Partitioning, Vacuum, and Optimize
+* **Modularity:** Transformation logic is decoupled from notebooks into a dedicated `src/` module to ensure reusability and testability.
 
 ## 🚀 Key Engineering Solutions
 
