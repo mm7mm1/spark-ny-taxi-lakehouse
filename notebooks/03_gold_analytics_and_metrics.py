@@ -1,4 +1,10 @@
 # Databricks notebook source
+# Databricks notebook source
+import sys
+import os
+sys.path.append(os.path.abspath('..'))
+
+from src.transformations import get_daily_revenue
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
@@ -6,16 +12,8 @@ from pyspark.sql.window import Window
 df_silver = spark.table("workspace.default.silver_yellow_taxi")
 
 # Creating a window specification for a cumulative total
-window_spec = Window.partitionBy(F.lit(1)).orderBy("date").rowsBetween(Window.unboundedPreceding, Window.currentRow)
-
-gold_daily_revenue = df_silver.groupBy(F.to_date("tpep_pickup_datetime").alias("date")) \
-    .agg(
-        F.round(F.sum("total_amount"), 2).alias("total_revenue"), 
-        F.round(F.sum("tip_amount"), 2).alias("total_tips"),     
-        F.count("*").alias("trip_count")
-    ) \
-    .withColumn("rolling_total_revenue", 
-                F.sum("total_revenue").over(window_spec).cast("decimal(18,2)"))
+# Logic for daily revenue moved to src/transformations.py
+gold_daily_revenue = get_daily_revenue(df_silver)
 
 spark.sql("DROP TABLE IF EXISTS workspace.default.gold_daily_revenue")
 gold_daily_revenue.write.format("delta").mode("overwrite").saveAsTable("workspace.default.gold_daily_revenue")
