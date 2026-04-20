@@ -39,7 +39,7 @@ Implemented **Delta Lake** maintenance commands to ensure high performance:
 * `.explain()`: Analyzing Spark execution plans to identify bottlenecks.
 
 ## Data Architecture
-The data architecture diagram for this project follow The Medallion Architecture Bronze, Silver and Gold layers:
+The data architecture diagram for this project :
 ![Data Architecture](./docs/NYC_Taxi_Data_Lakehouse_2025.png)
 
 ## 📊 Visualizations & Insights
