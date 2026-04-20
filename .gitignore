@@ -211,3 +211,5 @@ __marimo__/
 data/
 *.parquet
 *.csv
+.DS_Store
+**/.DS_Store
