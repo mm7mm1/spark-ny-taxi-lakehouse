@@ -56,7 +56,7 @@ The project concludes with a high-level dashboard featuring:
 
 ## 📂 How to Run
 1.  **Register:** Create a [Databricks Community Edition](https://community.cloud.databricks.com/) account.
-2.  **Upload Data:** Place the NYC Taxi CSV files into DBFS (Databricks File System).
+2.  **Upload Data:** Place the NYC Taxi parquet files into DBFS (Databricks File System).
 3.  **Import Notebooks:** Clone this repository and upload the notebooks to your Databricks workspace.
 4.  **Execute Pipeline:** Run the notebooks in sequence (Bronze → Silver → Gold).
 
